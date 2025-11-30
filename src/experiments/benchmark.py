@@ -90,7 +90,7 @@ class BenchmarkExperiment:
             'training_results': training_results
         }
     
-    def run_benchmark(self, models_configs: Dict[str, Dict], 
+    def run_benchmark(self, models_configs: Dict[str, tuple], 
                      datasets: Optional[List[str]] = None,
                      max_samples: Optional[int] = None) -> pd.DataFrame:
         """Run benchmark experiments for multiple models and datasets"""

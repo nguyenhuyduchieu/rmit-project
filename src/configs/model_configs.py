@@ -96,3 +96,63 @@ class VanillaTransformerConfig(BaseConfig):
         self.activation = 'gelu'
         self.embed = 'timeF'
         self.freq = 'h'
+
+class RLGatedMoLEConfig(BaseConfig):
+    """Configuration for RL-gated MoLE model"""
+    def __init__(self):
+        super().__init__()
+        # Expert bank configuration
+        self.num_experts = 8
+        self.seq_len = 96
+        self.pred_len = 96
+        self.enc_in = 1
+        
+        # Router configuration
+        self.state_dim = 20  # Number of state features
+        self.router_hidden_dim = 256
+        
+        # Reward configuration
+        self.reward_type = 'mda_rmse'  # 'mda_rmse' or 'pnl_cvar'
+        self.reward_beta = 0.5
+        
+        # Training configuration
+        self.batch_size = 32
+        self.epochs = 10
+        self.learning_rate = 0.001
+        
+        # RL training configuration
+        self.rl_epochs = 50
+        self.rl_learning_rate = 0.0001
+        self.gamma = 0.99  # Discount factor
+        self.epsilon = 0.1  # Exploration rate
+
+class ProphetConfig(BaseConfig):
+    """Configuration for Prophet model"""
+    def __init__(self):
+        super().__init__()
+        self.yearly_seasonality = True
+        self.weekly_seasonality = True
+        self.daily_seasonality = False
+        self.seasonality_mode = 'multiplicative'
+        self.changepoint_prior_scale = 0.05
+        self.seasonality_prior_scale = 10.0
+        self.interval_width = 0.95
+        self.uncertainty_samples = 1000
+
+class AutoformerConfig(BaseConfig):
+    """Configuration for Autoformer model"""
+    def __init__(self):
+        super().__init__()
+        self.d_model = 128
+        self.e_layers = 2
+        self.d_layers = 1
+        self.n_heads = 8
+        self.d_ff = 256
+        self.dropout = 0.1
+        self.factor = 1
+        self.activation = 'gelu'
+        self.embed = 'timeF'
+        self.freq = 'h'
+        self.moving_avg = 25
+        self.label_len = None  # Will be set to seq_len // 2 if None
+        self.output_attention = False
