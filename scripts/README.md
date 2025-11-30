@@ -1,37 +1,54 @@
 # Scripts
 
-This folder contains all execution scripts for running experiments and tests.
+This folder contains all execution scripts for running experiments and benchmarks.
 
-## Main Scripts
+## Main Benchmark Scripts
 
-### Unified Benchmark
-- **run_unified_benchmark.py** - Main benchmark script using prepared data
+### 1. Single-Asset Benchmark
+- **run_unified_benchmark.py** - Main benchmark script for single-asset forecasting
+  - Uses prepared data from `data_prepare/`
   - All models use the same prepared data for fair comparison
-  - Recommended script for comprehensive evaluation
+  - Tests on BTCUSDT with technical indicators
+  - **Usage**: `python scripts/run_unified_benchmark.py`
 
-### Individual Model Scripts
-- **run_*_benchmark.py** - Benchmark scripts for specific models
-- **test_*.py** - Test scripts for individual models
+### 2. Multi-Asset Benchmark
+- **run_multi_asset_benchmark.py** - Benchmark script for multi-asset forecasting
+  - Tests on 5 cryptocurrencies: BTC, ETH, BNB, SOL, XRP
+  - Uses log returns of Close prices
+  - Automatically prepares multi-asset data
+  - **Usage**: `python scripts/run_multi_asset_benchmark.py`
 
-### Special Scripts
-- **test_hieu_multi_asset.py** - Test HIEU model with multi-asset data
-- **test_fixed_models.py** - Test fixed models (VanillaTransformer, SimpleMoLE, Prophet, etc.)
+## Helper Scripts
 
-## Usage
+- **test_hieu_multi_asset.py** - Test HIEU model specifically with multi-asset data
+- **test_simple_mole.py** - SimpleMoLE model definition (used by benchmarks)
 
-### Run unified benchmark (recommended):
+## Usage Examples
+
+### Run Single-Asset Benchmark:
 ```bash
+# 1. Prepare data first
+python data_prepare/prepare_data.py --datasets BTCUSDT
+
+# 2. Run benchmark
 python scripts/run_unified_benchmark.py
 ```
 
-### Test specific model:
+### Run Multi-Asset Benchmark:
 ```bash
-python scripts/test_patchtst.py
-python scripts/test_itransformer.py
-# etc.
+# No data preparation needed - script handles it automatically
+python scripts/run_multi_asset_benchmark.py
 ```
 
-## Logs
+### Generate Comparison Reports:
+```bash
+# After running benchmarks
+python analysis/create_multi_asset_comparison.py
+```
 
-All scripts generate logs in `logs/` directory for monitoring and debugging.
+## Output
+
+- **Results**: Saved to `analysis/` folder
+- **Logs**: Saved to `logs/` folder
+- **Metrics**: MAE, MSE, RMSE, MAPE, SMAPE, Trend Match
 

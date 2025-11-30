@@ -15,11 +15,14 @@ python data_prepare/prepare_data.py --datasets BTCUSDT ETHUSDT
 python data_prepare/prepare_data.py --max_samples 5000
 ```
 
-### 2. Chạy Unified Benchmark
+### 2. Chạy Benchmarks
 
 ```bash
-# Chạy benchmark với prepared data (tất cả models dùng cùng data)
+# Single-Asset Benchmark (tất cả models dùng cùng prepared data)
 python scripts/run_unified_benchmark.py
+
+# Multi-Asset Benchmark (5 cryptocurrencies: BTC, ETH, BNB, SOL, XRP)
+python scripts/run_multi_asset_benchmark.py
 ```
 
 ## Cấu trúc thư mục
@@ -47,17 +50,19 @@ Chứa các model chính (proposed models):
 
 ### 📁 `scripts/`
 Chứa tất cả các script để chạy experiments và tests:
-- `run_*.py` - Các script chạy benchmark cho từng model
-- `test_*.py` - Các script test cho từng model
-- `run_full_benchmark_with_hieu.py` - Script chạy full benchmark
-- `run_comprehensive_benchmark_with_mole.py` - Script benchmark với MoLE
+- `run_unified_benchmark.py` - **Main single-asset benchmark** (tất cả models dùng cùng prepared data)
+- `run_multi_asset_benchmark.py` - **Multi-asset benchmark** (5 cryptocurrencies)
+- `test_hieu_multi_asset.py` - Test HIEU model với multi-asset data
+- `test_simple_mole.py` - SimpleMoLE model definition
 
 ### 📁 `analysis/`
 Chứa các file so sánh và phân tích kết quả cuối cùng:
-- `final_model_comparison.csv` - Kết quả tổng hợp tất cả models
-- `FINAL_MODEL_COMPARISON.md` - Báo cáo so sánh chi tiết
-- `*.png` - Các biểu đồ so sánh models
-- `create_final_comparison.py` - Script tạo final comparison
+- `MULTI_ASSET_COMPARISON.md` - Báo cáo so sánh multi-asset benchmark
+- `multi_asset_comparison.csv` - Kết quả multi-asset benchmark
+- `multi_asset_*.png` - Visualizations cho multi-asset results
+- `HIEU_ARCHITECTURE_ANALYSIS.md` - Phân tích chi tiết về HIEU model
+- `FEATURE_USAGE_ANALYSIS.md` - Phân tích cách models sử dụng features
+- `create_multi_asset_comparison.py` - Script tạo multi-asset comparison report
 
 ### 📁 `src/`
 Chứa các utilities và configs:
@@ -94,20 +99,14 @@ python data_prepare/prepare_data.py --datasets BTCUSDT
 python scripts/run_unified_benchmark.py
 ```
 
-### Chạy benchmark cho một model cụ thể (legacy):
-```bash
-python scripts/run_patchtst_benchmark.py
-python scripts/run_itransformer_benchmark.py
-# ... etc
-```
-
 ### Xem kết quả so sánh:
 ```bash
-# Xem báo cáo cuối cùng
-cat analysis/FINAL_MODEL_COMPARISON.md
+# Multi-asset benchmark results
+cat analysis/MULTI_ASSET_COMPARISON.md
+cat analysis/multi_asset_comparison.csv
 
-# Hoặc xem CSV
-cat analysis/final_model_comparison.csv
+# Generate comparison report với visualizations
+python analysis/create_multi_asset_comparison.py
 ```
 
 ## Data Preparation
@@ -130,10 +129,30 @@ data_prepare/{dataset_name}/
 └── feature_names.txt
 ```
 
-## Lưu ý
+## Benchmark Results
 
-- **Bắt buộc**: Chạy `prepare_data.py` trước khi chạy models
-- Tất cả kết quả sẽ được lưu vào thư mục `analysis/`
-- Đảm bảo đã cài đặt đầy đủ dependencies trước khi chạy
-- Các import paths đã được cập nhật để phù hợp với cấu trúc mới
-- **Unified benchmark** đảm bảo tất cả models dùng cùng data format
+### Single-Asset Benchmark (BTCUSDT)
+- **Best Model**: iTransformer (RMSE: 0.56, MAE: 0.41)
+- **Best Linear**: PatchTST (RMSE: 21.20)
+- Results: See `analysis/` folder
+
+### Multi-Asset Benchmark (5 cryptocurrencies)
+- **Best Model**: SimpleMoLE (RMSE: 1.05, MAE: 0.58)
+- **HIEU Model**: RMSE: 1.05, MAE: 0.58 (xếp thứ 3)
+- Results: See `analysis/MULTI_ASSET_COMPARISON.md`
+
+## Important Notes
+
+- **HIEU Model**: Designed for **multi-asset forecasting**, NOT single-asset
+  - Single-asset: MAE=763.34 ❌ (very poor)
+  - Multi-asset: MAE=0.58 ✅ (excellent)
+- **Data Preparation**: Chạy `prepare_data.py` trước khi chạy single-asset benchmark
+- **Multi-Asset Data**: Uses log returns of Close prices, automatically prepared by `run_multi_asset_benchmark.py`
+- All results saved in `analysis/` folder
+- Logs saved in `logs/` folder
+
+## Documentation
+
+- **HIEU Model**: See `models/HIEU/TECHNICAL_README.md` for comprehensive technical documentation
+- **Architecture Analysis**: See `analysis/HIEU_ARCHITECTURE_ANALYSIS.md`
+- **Feature Usage**: See `analysis/FEATURE_USAGE_ANALYSIS.md`

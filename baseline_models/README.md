@@ -1,26 +1,52 @@
 # Baseline Models
 
-This folder contains baseline model implementations for time series forecasting.
+This folder contains baseline model implementations for time series forecasting. These models serve as benchmarks for comparison with proposed models.
 
-## Models
+## Model Categories
 
-- **Linear Models** (`linear_models.py`): Linear, DLinear, NLinear, RLinear
-- **Transformer Models** (`transformer_models.py`): PatchTST, iTransformer, VanillaTransformer
-- **Individual Model Files**:
-  - `autoformer_model.py` - Autoformer implementation
-  - `prophet_model.py` - Prophet/Facebook Prophet model
-  - `rlinear_model.py` - RLinear model
-  - `itransformer_model.py` - iTransformer model
-  - `patchtst_model.py` - PatchTST model
-  - `vanilla_transformer_model.py` - Vanilla Transformer model
-  - `crypto_ltsf_linear.py` - Crypto LTSF Linear implementation
+### Linear Models (`linear_models.py`)
+- **Linear**: Simple linear transformation
+- **DLinear**: Decomposition + Linear (trend + seasonal)
+- **NLinear**: Normalization + Linear
+- **RLinear**: RevIN + Linear (reversible normalization)
+
+### Transformer Models (`transformer_models.py`)
+- **PatchTST**: Patch-based Time Series Transformer
+- **iTransformer**: Inverted Transformer architecture
+- **VanillaTransformer**: Standard Transformer for time series
+
+### Individual Model Files
+- `autoformer_model.py` - Autoformer (decomposition-based transformer)
+- `prophet_model.py` - Facebook Prophet (statistical model)
+- `rlinear_model.py` - RLinear standalone implementation
+- `itransformer_model.py` - iTransformer standalone
+- `patchtst_model.py` - PatchTST standalone
+- `vanilla_transformer_model.py` - Vanilla Transformer standalone
+- `crypto_ltsf_linear.py` - Crypto-specific LTSF Linear
 
 ## Usage
 
-These models are used in the unified benchmark script:
+### Single-Asset Benchmark
 ```bash
+# All baseline models included
 python scripts/run_unified_benchmark.py
 ```
 
-All models use the same prepared data from `data_prepare/` for fair comparison.
+### Multi-Asset Benchmark
+```bash
+# All baseline models support multi-asset input
+python scripts/run_multi_asset_benchmark.py
+```
+
+## Performance
+
+### Single-Asset (BTCUSDT)
+- **Best**: iTransformer (RMSE: 0.56, MAE: 0.41)
+- **Best Linear**: PatchTST (RMSE: 21.20)
+
+### Multi-Asset (5 cryptocurrencies)
+- **Best**: SimpleMoLE (RMSE: 1.05, MAE: 0.58)
+- All models show similar performance (RMSE: 1.05-1.06)
+
+All models use the same prepared data for fair comparison.
 

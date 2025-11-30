@@ -1,31 +1,36 @@
 # Analysis Results
 
-This folder contains the final comparison results and visualizations for all models.
+This folder contains comparison results, visualizations, and analysis reports for all models.
 
-## Final Results
+## Multi-Asset Benchmark Results
 
-- **final_model_comparison.csv** - Combined results from all benchmarks
-- **FINAL_MODEL_COMPARISON.md** - Detailed comparison report with rankings
+### Main Results
+- **MULTI_ASSET_COMPARISON.md** - Detailed comparison report with rankings
+- **multi_asset_comparison.csv** - Summary results (sorted by RMSE)
+- **multi_asset_benchmark_results.csv** - Raw benchmark results
 
-## Visualizations
+### Visualizations
+1. **multi_asset_rmse_comparison.png** - RMSE comparison across all models
+2. **multi_asset_mae_comparison.png** - MAE comparison across all models  
+3. **multi_asset_radar_chart_top5.png** - Radar chart for top 5 models
+4. **multi_asset_mae_vs_rmse_scatter.png** - Scatter plot of MAE vs RMSE
 
-1. **rmse_comparison.png** - RMSE comparison across all models
-2. **mae_comparison.png** - MAE comparison across all models  
-3. **radar_chart_top5.png** - Radar chart for top 5 models
-4. **mae_vs_rmse_scatter.png** - Scatter plot of MAE vs RMSE
-5. **trend_match_comparison.png** - Trend match comparison
+### Key Findings (Multi-Asset)
+- **Best Model**: SimpleMoLE (RMSE: 1.05, MAE: 0.58)
+- **2nd Best**: PatchTST (RMSE: 1.05, MAE: 0.58)
+- **3rd Best**: HIEU (RMSE: 1.05, MAE: 0.58)
+- All top models have very similar performance (RMSE: 1.05-1.06)
 
 ## Documentation
 
+- **HIEU_ARCHITECTURE_ANALYSIS.md** - Detailed analysis of HIEU model architecture
 - **FEATURE_USAGE_ANALYSIS.md** - Analysis of how models use input features
-- **create_final_comparison.py** - Script to generate final comparison
+- **MULTI_ASSET_BENCHMARK_README.md** - Guide for multi-asset benchmark
 
-## Key Findings
+## Scripts
 
-- **Best Model (RMSE)**: iTransformer (0.56)
-- **Best Model (MAE)**: iTransformer (0.41)
-- **Best Linear Model**: PatchTST (RMSE: 21.20)
-- **HIEU Model**: Works best with multi-asset data (MAE: 0.58)
+- **create_multi_asset_comparison.py** - Generate multi-asset comparison report with visualizations
+- **create_final_comparison.py** - Generate final comparison (legacy, for single-asset)
 
 ## ⚠️ Important: HIEU Model Results
 
