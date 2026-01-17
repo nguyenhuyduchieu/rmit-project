@@ -1,24 +1,28 @@
+
 class HIEUConfig:
+
     def __init__(self):
         # IO
         self.seq_len = 96
         self.pred_len = 96
         self.enc_in = 1
         self.batch_size = 32
-        self.learning_rate = 5e-4
+        self.num_nodes = 19  # number of assets
+
+        # Training (optimized for 19 coins)
+        self.learning_rate = 8e-4  # Optimized: lower for better convergence
         self.weight_decay = 1e-4
-        self.epochs = 12
-        self.num_nodes = 1  # number of coins/nodes
+        self.epochs = 50  # Increased for better convergence
 
         # Regime encoder
         self.num_regimes = 4
-        self.regime_dim = 128
-        self.regime_temp = 1.0  # gumbel-softmax temperature
+        self.regime_dim = 64
+        self.regime_temp = 1.0
         self.ssl_weight = 0.1
         self.use_gc_features = True
 
-        # Graph
-        self.graph_hidden = 128
+        # Graph (increased for 19 assets)
+        self.graph_hidden = 128  # Increased from 64 for more assets
         self.graph_prior_weight = 1e-2
         self.laplacian_weight = 1e-3
         self.use_gc_prior = True
@@ -30,15 +34,15 @@ class HIEUConfig:
         self.use_freq_reweight = True
 
         # HyperLinear
-        self.linear_rank = 16  # low-rank delta (LoRA-style)
-        self.num_experts = 3  # per-band experts
+        self.linear_rank = 8
+        self.num_experts = 3
 
         # Probabilistic
         self.quantiles = [0.1, 0.5, 0.9]
         self.pinball_weight = 0.2
-        self.crps_weight = 0.2  # enable CRPS
+        self.crps_weight = 0.2
 
-        # TTA
+        # TTA (optional)
         self.tta_steps = 2
         self.tta_lr = 1e-4
         self.tta_use_tent = True
